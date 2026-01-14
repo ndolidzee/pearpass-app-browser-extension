@@ -274,6 +274,10 @@ export class PearpassVaultClient extends EventEmitter {
       this[commandName] = async (...args) => {
         this._log(`Calling ${commandName} with args:`, args)
 
+        if (commandName === 'recordFailedMasterPassword') {
+          return // No-op to avoid duplicate failed attempt recording
+        }
+
         try {
           const params = getCommandParams(commandName, args)
           const result = await this._sendRequest(commandName, params)
