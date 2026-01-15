@@ -225,7 +225,7 @@ export const AddDevice = () => {
                 : 'text-primary400-mode1'
             }`}
           >
-            <Trans>Import a vault</Trans>
+            <Trans>Import vault</Trans>
           </button>
         </div>
       </div>
