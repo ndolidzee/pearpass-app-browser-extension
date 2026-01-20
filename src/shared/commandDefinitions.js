@@ -12,7 +12,7 @@ export const COMMAND_DEFINITIONS = {
   encryptionAdd: { params: ['key', 'data'] },
 
   // RateLimiter commands
-
+  resetFailedAttempts: { params: [] },
   recordFailedMasterPassword: { params: [] },
   getMasterPasswordStatus: { params: [] },
 
