@@ -9,6 +9,8 @@ import {
   useVaults
 } from 'pearpass-lib-vault'
 
+import { ButtonPrimary } from '../../components/ButtonPrimary'
+import { VaultActionsPopupContent } from '../../components/VaultActionsPopupContent'
 import { NAVIGATION_ROUTES } from '../../constants/navigation'
 import { ConfirmationModalContent } from '../../containers/ConfirmationModalContent'
 import { CreateFolderModalContent } from '../../containers/CreateFolderModalContent'
@@ -23,10 +25,8 @@ import { SettingsIcon } from '../../icons/SettingsIcon'
 import { StarIcon } from '../../icons/StarIcon'
 import { UserSecurityIcon } from '../../icons/UserSecurityIcon'
 import { sortByName } from '../../utils/sortByName'
-import { ButtonPrimary } from '../ButtonPrimary'
 import { DropdownSwapVault } from '../DropdownSwapVault'
 import { SidebarDropdown } from '../SidebarDropdown'
-import { VaultActionsPopupContent } from '../VaultActionsPopupContent'
 
 const TRANSITION_DURATION = 300
 

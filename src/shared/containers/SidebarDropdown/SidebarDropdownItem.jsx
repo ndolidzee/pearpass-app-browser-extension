@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
+import { PopupMenu } from '../../components/PopupMenu'
 import { KebabMenuIcon } from '../../icons/KebabMenuIcon'
-import { PopupMenu } from '../PopupMenu'
 
 /**
  * @param {{

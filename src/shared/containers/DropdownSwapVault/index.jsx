@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react'
 import { t } from '@lingui/core/macro'
 import { useVault } from 'pearpass-lib-vault'
 
-import { CreateVaultModalContent } from '../../containers/CreateVaultModalContent'
-import { VaultPasswordFormModalContent } from '../../containers/VaultPasswordFormModalContent'
 import { useModal } from '../../context/ModalContext'
 import { ArrowDownIcon } from '../../icons/ArrowDownIcon'
 import { LockCircleIcon } from '../../icons/LockCircleIcon'
 import { LockIcon } from '../../icons/LockIcon'
 import { logger } from '../../utils/logger'
+import { CreateVaultModalContent } from '../CreateVaultModalContent'
+import { VaultPasswordFormModalContent } from '../VaultPasswordFormModalContent'
 
 const TRANSITION_DURATION = 250
 
