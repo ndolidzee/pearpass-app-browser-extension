@@ -1,3 +1,4 @@
+import { useDesktopConnectionErrors } from './hooks/useDesktopConnectionErrors'
 import { usePairingRequired } from './hooks/usePairingRequired'
 import { useRedirect } from './hooks/useRedirect'
 import { useWindowResize } from './hooks/useWindowResize'
@@ -15,10 +16,11 @@ export const App = () => {
   })
 
   usePairingRequired()
+  useDesktopConnectionErrors()
 
   return (
     <div
-      className="bg-black-mode1 flex items-center justify-center"
+      className="bg-black-mode1 flex items-center"
       style={{
         height: `${windowSize.height}px`,
         width: `${windowSize.width}px`
