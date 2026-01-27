@@ -35,11 +35,6 @@ export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
     onClose: () => setIsOpen(false)
   })
 
-  const handleActionMenuToggle = (e) => {
-    e.stopPropagation()
-    setIsOpen(!isOpen)
-  }
-
   const baseBg = isSelected
     ? 'bg-[rgba(134,170,172,0.4)]'
     : isOpen

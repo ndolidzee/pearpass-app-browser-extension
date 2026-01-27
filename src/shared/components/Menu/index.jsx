@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useCallback
 } from 'react'
+
 import { createPortal } from 'react-dom'
 
 const MenuContext = createContext(null)
@@ -360,6 +361,6 @@ export const MenuItem = ({
 /**
  * @param {{ className?: string }} props
  */
-export const MenuSeparator = ({ className }) => {
-  return <div className={className} role="separator" />
-}
+export const MenuSeparator = ({ className }) => (
+  <div className={className} role="separator" />
+)

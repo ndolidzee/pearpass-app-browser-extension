@@ -18,28 +18,26 @@ export const SidebarDropdownItem = ({
   onItemClick,
   showMenu = true,
   menuPopupContent
-}) => {
-  return (
-    <button
-      type="button"
-      onClick={onItemClick}
-      className="bg-grey350-mode1 relative flex w-full cursor-pointer items-center justify-between rounded-[10px] border-none px-2 py-1.5 transition-colors hover:opacity-90"
-      style={{ minHeight: '40px' }}
-    >
-      <div className="flex items-center gap-3">
-        {Icon && <Icon size="24" color="white" />}
-        <span className="font-inter text-white-mode1 text-base font-bold">
-          {label}
-        </span>
-      </div>
-      {showMenu && (
-        <Menu>
-          <MenuTrigger stopPropagation>
-            <KebabMenuIcon size="24" color="white" />
-          </MenuTrigger>
-          <MenuContent>{menuPopupContent}</MenuContent>
-        </Menu>
-      )}
-    </button>
-  )
-}
+}) => (
+  <button
+    type="button"
+    onClick={onItemClick}
+    className="bg-grey350-mode1 relative flex w-full cursor-pointer items-center justify-between rounded-[10px] border-none px-2 py-1.5 transition-colors hover:opacity-90"
+    style={{ minHeight: '40px' }}
+  >
+    <div className="flex items-center gap-3">
+      {Icon && <Icon size="24" color="white" />}
+      <span className="font-inter text-white-mode1 text-base font-bold">
+        {label}
+      </span>
+    </div>
+    {showMenu && (
+      <Menu>
+        <MenuTrigger stopPropagation>
+          <KebabMenuIcon size="24" color="white" />
+        </MenuTrigger>
+        <MenuContent>{menuPopupContent}</MenuContent>
+      </Menu>
+    )}
+  </button>
+)
