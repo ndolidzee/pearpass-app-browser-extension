@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { RECORD_ACTION_ICON_BY_TYPE } from '../../../shared/constants/recordActions'
 import { MenuItem } from '../Menu'
 
