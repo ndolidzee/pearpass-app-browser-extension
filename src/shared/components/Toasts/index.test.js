@@ -26,10 +26,7 @@ describe('Toasts Component', () => {
       </ThemeProvider>
     )
 
-    expect(mockIcon).toHaveBeenCalledWith(
-      { color: colors.black.mode1 },
-      undefined
-    )
+    expect(mockIcon).toHaveBeenCalledWith({ color: colors.black.mode1 }, {})
     expect(container).toMatchSnapshot()
   })
 

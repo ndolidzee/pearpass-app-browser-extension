@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react'
 import { t } from '@lingui/core/macro'
 import { useLingui } from '@lingui/react'
 import { Trans } from '@lingui/react/macro'
-
 import {
   AUTO_LOCK_TIMEOUT_OPTIONS,
   BE_AUTO_LOCK_ENABLED
@@ -122,9 +121,9 @@ export const SecurityContent = () => {
                     <InfoIcon />
                   </MenuTrigger>
                   <MenuContent>
-                    <div className="flex w-max flex-col rounded-[10px] p-2.5 bg-grey400-mode1 shadow-[0px_4px_10px_rgba(0,0,0,0.1)]">
-                      <div className="flex flex-col gap-2.5 w-[400px] leading-4 text-white-mode1">
-                        <ul className="flex flex-col gap-2 pt-1 pl-5 list-disc">
+                    <div className="bg-grey400-mode1 flex w-max flex-col rounded-[10px] p-2.5 shadow-[0px_4px_10px_rgba(0,0,0,0.1)]">
+                      <div className="text-white-mode1 flex w-[400px] flex-col gap-2.5 leading-4">
+                        <ul className="flex list-disc flex-col gap-2 pt-1 pl-5">
                           <li>
                             <Trans>
                               Auto-lock determines how long Pearpass stays

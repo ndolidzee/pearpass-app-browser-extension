@@ -62,7 +62,7 @@ describe('ToastContext', () => {
       expect.objectContaining({
         toasts: [toastData]
       }),
-      undefined
+      {}
     )
   })
 
@@ -88,7 +88,7 @@ describe('ToastContext', () => {
       expect.objectContaining({
         toasts: [toastData]
       }),
-      undefined
+      {}
     )
 
     act(() => {
@@ -99,7 +99,7 @@ describe('ToastContext', () => {
       expect.objectContaining({
         toasts: []
       }),
-      undefined
+      {}
     )
   })
 
@@ -127,7 +127,7 @@ describe('ToastContext', () => {
       expect.objectContaining({
         toasts: [toast1, toast2]
       }),
-      undefined
+      {}
     )
   })
 })
