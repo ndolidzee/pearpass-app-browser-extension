@@ -18,7 +18,8 @@ const sendResetTimer = createHeartbeat(() => {
 }, 1000)
 
 export function useInactivity() {
-  const { isAutoLockEnabled, timeoutMs } = useAutoLockPreferences()
+  const { isAutoLockEnabled, timeoutMs, shouldBypassAutoLock } =
+    useAutoLockPreferences()
 
   const { setIsLoading } = useLoadingContext()
   const { navigate } = useRouter()
@@ -28,12 +29,14 @@ export function useInactivity() {
 
   const timerRef = useRef(null)
 
+  const bypassIntervalRef = useRef(null)
+
   const resetTimer = () => {
     if (timerRef.current) {
       clearTimeout(timerRef.current)
     }
 
-    if (!isAutoLockEnabled || timeoutMs === null) {
+    if (!isAutoLockEnabled || timeoutMs === null || shouldBypassAutoLock) {
       return
     }
 
@@ -63,6 +66,25 @@ export function useInactivity() {
   }
 
   useEffect(() => {
+    if (shouldBypassAutoLock) {
+      bypassIntervalRef.current = setInterval(() => {
+        sendResetTimer()
+      }, 1000)
+    } else {
+      if (bypassIntervalRef.current) {
+        clearInterval(bypassIntervalRef.current)
+        bypassIntervalRef.current = null
+      }
+    }
+    return () => {
+      if (bypassIntervalRef.current) {
+        clearInterval(bypassIntervalRef.current)
+        bypassIntervalRef.current = null
+      }
+    }
+  }, [shouldBypassAutoLock])
+
+  useEffect(() => {
     const events = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll']
 
     events.forEach((e) => window.addEventListener(e, resetTimer))
@@ -74,5 +96,5 @@ export function useInactivity() {
       events.forEach((e) => window.removeEventListener(e, resetTimer))
       if (timerRef.current) clearTimeout(timerRef.current)
     }
-  }, [isAutoLockEnabled, timeoutMs])
+  }, [isAutoLockEnabled, timeoutMs, shouldBypassAutoLock])
 }
