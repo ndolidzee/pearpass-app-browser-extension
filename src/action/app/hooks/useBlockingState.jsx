@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState, useRef } from 'react'
 
+import { AUTHENTICATOR_ENABLED } from 'pearpass-lib-constants'
+
 import { client } from '../../../shared/client'
 import {
   BACKGROUND_MESSAGE_TYPES,
@@ -13,6 +15,7 @@ import { secureChannelMessages } from '../../../shared/services/messageBridge'
 import { logger } from '../../../shared/utils/logger'
 import { DesktopConnectionModalContent } from '../../containers/Modal/DesktopConnectionModalContent'
 import { PairingRequiredModalContent } from '../../containers/Modal/PairingRequiredModalContent'
+import { PairingRequiredModalContentV2 } from '../../containers/Modal/PairingRequiredModalContent/PairingRequiredModalContentV2'
 
 /**
  * Hook to check blocking state on extension open and reactively handle
@@ -39,7 +42,17 @@ export const useBlockingState = () => {
     if (pairingModalOpenRef.current) return
     pairingModalOpenRef.current = true
     closeAllModals()
-    setModal(<PairingRequiredModalContent onPairSuccess={onPairSuccess} />, {
+
+    const content =
+      AUTHENTICATOR_ENABLED === true ? (
+        <PairingRequiredModalContentV2 onPairSuccess={onPairSuccess} />
+      ) : (
+        // TODO: In the future when only version 2 is supported, this component should be deleted.
+        <PairingRequiredModalContent onPairSuccess={onPairSuccess} />
+      )
+
+    setModal(content, {
+      fullScreen: AUTHENTICATOR_ENABLED,
       closeable: false
     })
   }, [closeAllModals, setModal, onPairSuccess])

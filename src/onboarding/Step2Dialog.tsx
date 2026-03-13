@@ -1,0 +1,115 @@
+import React, { useState } from 'react'
+import {
+  Button,
+  Title,
+  Text,
+  InputField,
+  AlertMessage
+} from '@tetherto/pearpass-lib-ui-kit'
+import { InlineDialog } from './InlineDialog'
+import { ONBOARDING_DIALOG_HEIGHT } from './constants'
+import { secureChannelMessages } from '../shared/services/messageBridge'
+
+interface Step2Props {
+  onNext: () => void
+}
+
+export const Step2Dialog = ({ onNext }: Step2Props) => {
+  const [code, setCode] = useState('')
+  const [error, setError] = useState<string | null>(null)
+
+  const handleConnect = async () => {
+    try {
+      console.log('Sending token:', code)
+      const res = await secureChannelMessages.getIdentity(code.trim())
+      console.log('Identity response:', res)
+      if (res?.success) {
+        // todo: could this have some security implications?
+        localStorage.setItem('PendingPairingToken', code.trim())
+        onNext()
+      } else {
+        setError('Failed to get identity. Please try again.')
+      }
+    } catch (err: unknown) {
+      console.error('Failed to get identity:', err)
+      let errorMessage = 'An unknown error occurred'
+      if (typeof err === 'string') {
+        errorMessage = err
+      } else if (err && typeof err === 'object' && 'message' in err) {
+        errorMessage = (err as Error).message
+      }
+      setError(errorMessage)
+    }
+  }
+
+  const footer = (
+    <div className="flex w-full items-center justify-end">
+      <Button
+        variant="primary"
+        size="medium"
+        onClick={handleConnect}
+        disabled={!code.trim()}
+      >
+        Connect
+      </Button>
+    </div>
+  )
+
+  return (
+    <InlineDialog
+      title="Step 2 of 3"
+      footer={footer}
+      hideCloseButton
+      open
+      style={{ height: ONBOARDING_DIALOG_HEIGHT }}
+    >
+      <div className="flex flex-col gap-4">
+        <img
+          src="/assets/images/step2.png"
+          className="mx-auto my-6 block"
+          alt="Step 2"
+        />
+        <div className="flex flex-col items-center gap-4 text-center">
+          <Title as="h2">Connect this browser to Pearpass</Title>
+          <div className="flex flex-col gap-2">
+            <Text as="p" variant="body">
+              Pearpass doesn't use accounts. To connect this browser you will
+              pair it with the Pearpass app using a one-time code.
+            </Text>
+            <Text as="p" variant="body">
+              Open the Pearpass app.
+            </Text>
+            <Text as="p" variant="body">
+              Go to settings → syncing → your devices.
+            </Text>
+            <Text as="p" variant="body">
+              Click on generate pair code for browser extension and enter code
+              below.
+            </Text>
+          </div>
+          <div className="w-full text-left">
+            <InputField
+              label="One-time code"
+              value={code}
+              placeholderText="Enter your one-time code"
+              onChangeText={(val) => {
+                setCode(val)
+                setError(null)
+              }}
+            />
+            {error && (
+              <div className="mt-4">
+                <AlertMessage
+                  variant="error"
+                  size="small"
+                  title="Error"
+                  description={error}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </InlineDialog>
+  )
+}

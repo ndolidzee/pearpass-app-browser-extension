@@ -1,0 +1,2 @@
+export const ONBOARDING_DIALOG_WIDTH = '600px'
+export const ONBOARDING_DIALOG_HEIGHT = '700px'
