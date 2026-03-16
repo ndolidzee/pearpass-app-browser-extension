@@ -6,10 +6,13 @@ export default {
   },
   moduleNameMapper: {
     '^pearpass-lib-ui-theme-provider$':
-      '<rootDir>/node_modules/pearpass-lib-ui-theme-provider/src/index.js'
+      '<rootDir>/node_modules/pearpass-lib-ui-theme-provider/src/index.js',
+    '^react$': '<rootDir>/node_modules/react',
+    '^react-dom$': '<rootDir>/node_modules/react-dom',
+    '^react-dom/client$': '<rootDir>/node_modules/react-dom/client'
   },
   testPathIgnorePatterns: ['/node_modules/', '/.yalc/', '/packages/'],
   transformIgnorePatterns: [
-    'node_modules/(?!(htm|pearpass-lib-ui-theme-provider|pearpass-lib-ui-react-components|pear-apps-lib-ui-react-hooks|pear-apps-utils-validator|pearpass-lib-vault|pearpass-utils-password-check|pearpass-utils-password-generator|pear-apps-utils-pattern-search|pear-apps-utils-avatar-initials|pear-apps-lib-feedback|pear-apps-utils-generate-unique-id)/)'
+    'node_modules/(?!(htm|pearpass-lib-constants|pearpass-lib-ui-theme-provider|pearpass-lib-ui-react-components|pear-apps-lib-ui-react-hooks|pear-apps-utils-validator|pearpass-lib-vault|pearpass-utils-password-check|pearpass-utils-password-generator|pear-apps-utils-pattern-search|pear-apps-utils-avatar-initials|pear-apps-lib-feedback|pear-apps-utils-generate-unique-id|pear-apps-utils-date|pear-apps-utils-qr)/)'
   ]
 }
