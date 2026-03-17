@@ -1,4 +1,5 @@
 import React from 'react'
+import { Trans } from '@lingui/react/macro'
 import {
   Button,
   Title,
@@ -27,14 +28,14 @@ export const Step3Dialog = () => {
   const footer = (
     <div className="flex w-full items-center justify-end">
       <Button variant="primary" size="medium" onClick={handleNext}>
-        Open Pearpass extension
+        <Trans>Open Pearpass extension</Trans>
       </Button>
     </div>
   )
 
   return (
     <DialogSurface
-      title="Step 3 of 3"
+      title={<Trans>Step 3 of 3</Trans>}
       footer={footer}
       hideCloseButton
       style={
@@ -52,10 +53,14 @@ export const Step3Dialog = () => {
           alt="Step 3"
         />
         <div className="flex flex-col items-center gap-4 text-center">
-          <Title as="h2">Your browser is now securely connected</Title>
+          <Title as="h2">
+            <Trans>Your browser is now securely connected</Trans>
+          </Title>
           <div className="flex flex-col gap-2">
             <Text as="p" variant="body">
-              You can autofill, save and generate passwords instantly.
+              <Trans>
+                You can autofill, save and generate passwords instantly.
+              </Trans>
             </Text>
             <div className="flex items-center justify-center gap-1">
               <DoneAll
@@ -69,7 +74,7 @@ export const Step3Dialog = () => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 style={{ color: ONBOARDING_ICON_COLOR } as any}
               >
-                Browser connected
+                <Trans>Browser connected</Trans>
               </Text>
             </div>
             <div className="flex items-center justify-center gap-1">
@@ -84,7 +89,7 @@ export const Step3Dialog = () => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 style={{ color: ONBOARDING_ICON_COLOR } as any}
               >
-                Sync activated
+                <Trans>Sync activated</Trans>
               </Text>
             </div>
             <div className="flex items-center justify-center gap-1">
@@ -99,7 +104,7 @@ export const Step3Dialog = () => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 style={{ color: ONBOARDING_ICON_COLOR } as any}
               >
-                Autofill enabled
+                <Trans>Autofill enabled</Trans>
               </Text>
             </div>
           </div>

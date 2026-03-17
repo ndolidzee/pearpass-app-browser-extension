@@ -1,14 +1,21 @@
+import { t } from '@lingui/core/macro'
 import React, { useState } from 'react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { i18n } from '@lingui/core'
+import { I18nProvider } from '@lingui/react'
 import { ThemeProvider as UIKitProvider } from '@tetherto/pearpass-lib-ui-kit'
 import { StepIndicatorBar } from './StepIndicatorBar'
 import { Step1Dialog } from './Step1Dialog'
 import { Step2Dialog } from './Step2Dialog'
 import { Step3Dialog } from './Step3Dialog'
 import { ONBOARDING_DIALOG_WIDTH } from './constants'
+import { messages } from '../locales/en/messages.mjs'
 import '../index.css'
 import '../strict.css'
+
+i18n.load('en', messages)
+i18n.activate('en')
 
 const OnboardingPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
@@ -25,7 +32,7 @@ const OnboardingPage = () => {
         <img
           src="/assets/images/logoLock.png"
           className="h-[50px] w-[190px]"
-          alt="Pearpass"
+          alt={t`Pearpass`}
         />
 
         <div
@@ -48,7 +55,9 @@ const OnboardingPage = () => {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <UIKitProvider>
-      <OnboardingPage />
+      <I18nProvider i18n={i18n}>
+        <OnboardingPage />
+      </I18nProvider>
     </UIKitProvider>
   </StrictMode>
 )

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Trans } from '@lingui/react/macro'
 import {
   Button,
   Title,
@@ -20,17 +21,17 @@ export const Step1Dialog = ({ onNext }: Step1Props) => {
   const footer = (
     <div className="flex w-full items-center justify-end gap-3">
       <Button variant="secondary" size="medium" onClick={onNext}>
-        I will do it later
+        <Trans>I will do it later</Trans>
       </Button>
       <Button variant="primary" size="medium" onClick={onNext}>
-        Done
+        <Trans>Done</Trans>
       </Button>
     </div>
   )
 
   return (
     <DialogSurface
-      title="Step 1 of 3"
+      title={<Trans>Step 1 of 3</Trans>}
       footer={footer}
       hideCloseButton
       style={
@@ -48,18 +49,24 @@ export const Step1Dialog = ({ onNext }: Step1Props) => {
           alt="Step 1"
         />
         <div className="flex flex-col items-center gap-4 text-center">
-          <Title as="h2">Pin Pearpass for quick access</Title>
+          <Title as="h2">
+            <Trans>Pin Pearpass for quick access</Trans>
+          </Title>
           <div className="flex flex-col gap-2">
             <Text as="p" variant="body">
-              Pinning Pearpass keeps it one click away whenever you need it
+              <Trans>
+                Pinning Pearpass keeps it one click away whenever you need it
+              </Trans>
             </Text>
             <Text as="p" variant="body">
-              Keep Pearpass accessible in your toolbar for quick access to your
-              items
+              <Trans>
+                Keep Pearpass accessible in your toolbar for quick access to
+                your items
+              </Trans>
             </Text>
             <div className="flex items-center justify-center gap-1">
               <Text as="span" variant="body">
-                1. Click a
+                <Trans>1. Click a</Trans>
               </Text>
               <Extension
                 color={ONBOARDING_ICON_COLOR}
@@ -67,12 +74,12 @@ export const Step1Dialog = ({ onNext }: Step1Props) => {
                 height={ONBOARDING_ICON_SIZE}
               />
               <Text as="span" variant="body">
-                in a toolbar
+                <Trans>in a toolbar</Trans>
               </Text>
             </div>
             <div className="flex items-center justify-center gap-1">
               <Text as="span" variant="body">
-                2. Click
+                <Trans>2. Click</Trans>
               </Text>
               <PushPin
                 color={ONBOARDING_ICON_COLOR}
@@ -80,7 +87,7 @@ export const Step1Dialog = ({ onNext }: Step1Props) => {
                 height={ONBOARDING_ICON_SIZE}
               />
               <Text as="span" variant="body">
-                next to a Pearpass
+                <Trans>next to a Pearpass</Trans>
               </Text>
             </div>
           </div>

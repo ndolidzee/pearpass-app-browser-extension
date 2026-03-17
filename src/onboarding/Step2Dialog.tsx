@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { t } from '@lingui/core/macro'
+import { Trans } from '@lingui/react/macro'
 import {
   Button,
   Title,
@@ -37,11 +39,11 @@ export const Step2Dialog = ({ onNext }: Step2Props) => {
         localStorage.setItem('PendingPairingToken', code.trim())
         onNext()
       } else {
-        setError('Failed to get identity. Please try again.')
+        setError(t`Failed to get identity. Please try again.`)
       }
     } catch (err: unknown) {
       console.error('Failed to get identity:', err)
-      let errorMessage = 'An unknown error occurred'
+      let errorMessage = t`An unknown error occurred`
       if (typeof err === 'string') {
         errorMessage = err
       } else if (err && typeof err === 'object' && 'message' in err) {
@@ -59,14 +61,14 @@ export const Step2Dialog = ({ onNext }: Step2Props) => {
         onClick={handleConnect}
         disabled={!code.trim()}
       >
-        Connect Browser
+        <Trans>Connect Browser</Trans>
       </Button>
     </div>
   )
 
   return (
     <DialogSurface
-      title="Step 2 of 3"
+      title={<Trans>Step 2 of 3</Trans>}
       footer={footer}
       hideCloseButton
       style={
@@ -84,15 +86,19 @@ export const Step2Dialog = ({ onNext }: Step2Props) => {
           alt="Step 2"
         />
         <div className="flex flex-col items-center gap-4 text-center">
-          <Title as="h2">Connect this browser to Pearpass</Title>
+          <Title as="h2">
+            <Trans>Connect this browser to Pearpass</Trans>
+          </Title>
           <div className="flex flex-col gap-2">
             <Text as="p" variant="body">
-              Pearpass doesn't use accounts. To connect this browser you will
-              pair it with the Pearpass app using a one-time code.
+              <Trans>
+                Pearpass doesn't use accounts. To connect this browser you will
+                pair it with the Pearpass app using a one-time code.
+              </Trans>
             </Text>
             <div className="flex items-center justify-center gap-1">
               <Text as="span" variant="body">
-                1. Open the
+                <Trans>1. Open the</Trans>
               </Text>
               <PearpassLogo
                 color={ONBOARDING_ICON_COLOR}
@@ -105,15 +111,15 @@ export const Step2Dialog = ({ onNext }: Step2Props) => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 style={{ color: ONBOARDING_ICON_COLOR } as any}
               >
-                Pearpass
+                <Trans>Pearpass</Trans>
               </Text>
               <Text as="span" variant="body">
-                app.
+                <Trans>app.</Trans>
               </Text>
             </div>
             <div className="flex items-center justify-center gap-1">
               <Text as="span" variant="body">
-                2. Go to
+                <Trans>2. Go to</Trans>
               </Text>
               <Settings
                 color={ONBOARDING_ICON_COLOR}
@@ -126,12 +132,12 @@ export const Step2Dialog = ({ onNext }: Step2Props) => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 style={{ color: ONBOARDING_ICON_COLOR } as any}
               >
-                Settings → Syncing → Your Devices.
+                <Trans>Settings → Syncing → Your Devices.</Trans>
               </Text>
             </div>
             <div className="flex items-center justify-center gap-1">
               <Text as="span" variant="body">
-                3. Click on
+                <Trans>3. Click on</Trans>
               </Text>
               <Swap
                 color={ONBOARDING_ICON_COLOR}
@@ -144,19 +150,19 @@ export const Step2Dialog = ({ onNext }: Step2Props) => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 style={{ color: ONBOARDING_ICON_COLOR } as any}
               >
-                Generate Pair Code for Browser Extension
+                <Trans>Generate Pair Code for Browser Extension</Trans>
               </Text>
               <Text as="span" variant="body">
                 {' '}
-                &amp; Enter Code Below
+                <Trans>&amp; Enter Code Below</Trans>
               </Text>
             </div>
           </div>
           <div className="w-full text-left">
             <InputField
-              label="One-time code"
+              label={t`One-time code`}
               value={code}
-              placeholderText="Enter your one-time code"
+              placeholderText={t`Enter your one-time code`}
               onChangeText={(val) => {
                 setCode(val)
                 setError(null)
@@ -167,7 +173,7 @@ export const Step2Dialog = ({ onNext }: Step2Props) => {
                 <AlertMessage
                   variant="error"
                   size="small"
-                  title="Error"
+                  title={t`Error`}
                   description={error}
                 />
               </div>
