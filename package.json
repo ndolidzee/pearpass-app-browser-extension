@@ -93,5 +93,14 @@
     "typescript": "^5.9.3",
     "vite": "6.3.1",
     "vite-plugin-babel": "^1.5.1"
+  },
+  "overrides": {
+    "react-native-windows": {
+      "react": "$react"
+    },
+    "react-native": {
+      ".": "0.79.5",
+      "@types/react": "^18.3.0"
+    }
   }
 }
