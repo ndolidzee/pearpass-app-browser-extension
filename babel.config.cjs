@@ -14,9 +14,6 @@ const rsdBabelPreset = require.resolve('react-strict-dom/babel-preset', {
 
 module.exports = {
   compact: false,
-  parserOpts: {
-    plugins: ['typescript', 'jsx']
-  },
   plugins: ['@lingui/babel-plugin-lingui-macro'],
   presets: isTest
     ? [
