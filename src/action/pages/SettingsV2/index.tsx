@@ -27,18 +27,19 @@ import {
   LanguageContent,
   ReportAProblemContent
 } from './content'
-import type { Section, SettingsItemKey } from './sections'
+import type { Section } from './sections'
+import { SettingsItemKey, SettingsSectionKey } from './sections'
 import { useRouter } from '../../../shared/context/RouterContext'
 
 const renderActiveContent = (activeItemKey: SettingsItemKey) => {
   switch (activeItemKey) {
-    case 'app-preferences':
+    case SettingsItemKey.AppPreferences:
       return <AppPreferencesContent />
-    case 'language':
+    case SettingsItemKey.Language:
       return <LanguageContent />
-    case 'report-a-problem':
+    case SettingsItemKey.ReportAProblem:
       return <ReportAProblemContent />
-    case 'app-version':
+    case SettingsItemKey.AppVersion:
       return <AppVersionContent />
     default:
       return null
@@ -52,41 +53,41 @@ export const SettingsV2 = () => {
   const sections = useMemo<Section[]>(
     () => [
       {
-        key: 'security',
+        key: SettingsSectionKey.Security,
         title: t`Security`,
         icon: SecurityFilled,
         items: [
           {
-            key: 'app-preferences',
+            key: SettingsItemKey.AppPreferences,
             label: t`App Preferences`,
             icon: SettingsApplicationsFilled
           }
         ]
       },
       {
-        key: 'appearance',
+        key: SettingsSectionKey.Appearance,
         title: t`Appearance`,
         icon: PaletteOutlined,
         items: [
           {
-            key: 'language',
+            key: SettingsItemKey.Language,
             label: t`Language`,
             icon: Translate
           }
         ]
       },
       {
-        key: 'about',
+        key: SettingsSectionKey.About,
         title: t`About`,
         icon: InfoOutlined,
         items: [
           {
-            key: 'report-a-problem',
+            key: SettingsItemKey.ReportAProblem,
             label: t`Report a problem`,
             icon: BugReportFilled
           },
           {
-            key: 'app-version',
+            key: SettingsItemKey.AppVersion,
             label: t`App version`,
             icon: SystemSecurityUpdateFilled
           }
@@ -96,8 +97,9 @@ export const SettingsV2 = () => {
     []
   )
 
-  const [activeItemKey, setActiveItemKey] =
-    useState<SettingsItemKey>('app-preferences')
+  const [activeItemKey, setActiveItemKey] = useState<SettingsItemKey>(
+    SettingsItemKey.AppPreferences
+  )
   const [expandedSections, setExpandedSections] = useState<
     Record<string, boolean>
   >({})

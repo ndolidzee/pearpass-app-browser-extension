@@ -1,21 +1,23 @@
 import type React from 'react'
 
-export type SettingsItemKey =
-  | 'app-preferences'
-  | 'your-vaults'
-  | 'shared-items'
-  | 'shared-vaults'
-  | 'language'
-  | 'theme'
-  | 'report-a-problem'
-  | 'app-version'
+export enum SettingsItemKey {
+  AppPreferences = 'app-preferences',
+  YourVaults = 'your-vaults',
+  SharedItems = 'shared-items',
+  SharedVaults = 'shared-vaults',
+  Language = 'language',
+  Theme = 'theme',
+  ReportAProblem = 'report-a-problem',
+  AppVersion = 'app-version'
+}
 
-export type SettingsSectionKey =
-  | 'security'
-  | 'vault'
-  | 'shared-elements'
-  | 'appearance'
-  | 'about'
+export enum SettingsSectionKey {
+  Security = 'security',
+  Vault = 'vault',
+  SharedElements = 'shared-elements',
+  Appearance = 'appearance',
+  About = 'about'
+}
 
 export type SectionItem = {
   key: SettingsItemKey
