@@ -2,7 +2,7 @@ import type { ThemeColors } from '@tetherto/pearpass-lib-ui-kit'
 import { rawTokens } from '@tetherto/pearpass-lib-ui-kit'
 
 export const SIDEBAR_WIDTH_EXPANDED = 200
-export const SIDEBAR_WIDTH_COLLAPSED = 56
+export const SIDEBAR_WIDTH_COLLAPSED = 0
 export const SIDEBAR_HEADER_HEIGHT = 44
 export const FADE_GRADIENT_HEIGHT = 32
 export const FOLDER_CONTEXT_MENU_WIDTH = 200
@@ -24,7 +24,9 @@ export const createStyles = (colors: ThemeColors, isCollapsed: boolean) => ({
     height: '100%',
     width: isCollapsed ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH_EXPANDED,
     backgroundColor: colors.colorSurfacePrimary,
-    borderRight: `1px solid ${colors.colorBorderPrimary}`,
+    borderRight: isCollapsed
+      ? 'none'
+      : `1px solid ${colors.colorBorderPrimary}`,
     boxSizing: 'border-box' as const,
     overflow: 'hidden' as const,
     transition: 'width 150ms ease',

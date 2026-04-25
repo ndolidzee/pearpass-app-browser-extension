@@ -26,7 +26,7 @@ export const AppHeaderContextProvider = ({
 }) => {
   const [searchValue, setSearchValue] = useState('')
   const [isAddMenuOpen, setIsAddMenuOpen] = useState(false)
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true)
 
   const value = useMemo<AppHeaderContextState>(
     () => ({
