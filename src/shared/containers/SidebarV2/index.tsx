@@ -19,13 +19,11 @@ import {
 } from '@tetherto/pearpass-lib-ui-kit'
 import { Pressable } from '@tetherto/pearpass-lib-ui-kit/components/Pressable'
 import {
-  Close,
   CreateNewFolder,
   EditOutlined,
   ExpandMore,
   Folder,
   FolderCopy,
-  KeyboardArrowLeftFilled,
   LockFilled,
   LockOutlined,
   SettingsOutlined,
@@ -42,6 +40,7 @@ import {
 } from './SidebarV2.styles'
 import { VaultSelector } from './VaultSelector'
 import { NAVIGATION_ROUTES } from '../../constants/navigation'
+import { useAppHeaderContext } from '../../context/AppHeaderContext'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
@@ -54,7 +53,7 @@ const FAVORITES_FOLDER_ID = 'favorites'
 
 export const SidebarV2 = () => {
   const { theme } = useTheme()
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const { isSidebarCollapsed: isCollapsed } = useAppHeaderContext()
   const [isVaultSelectorOpen, setIsVaultSelectorOpen] = useState(false)
   const [isFoldersExpanded, setIsFoldersExpanded] = useState(true)
   const [openFolderMenu, setOpenFolderMenu] = useState<string | null>(null)
@@ -193,39 +192,12 @@ export const SidebarV2 = () => {
   const iconTextPrimary = { color: theme.colors.colorTextPrimary }
   const iconTextSecondary = { color: theme.colors.colorTextSecondary }
 
-  const renderCollapseButton = () => (
-    <div style={styles.collapseButtonSlot}>
-      <Button
-        variant="tertiary"
-        size="small"
-        onClick={() => setIsCollapsed((value) => !value)}
-        data-testid="sidebar-collapse-toggle"
-        aria-label={isCollapsed ? t`Expand sidebar` : t`Collapse sidebar`}
-        iconBefore={<KeyboardArrowLeftFilled style={iconTextPrimary} />}
-      />
-    </div>
-  )
-
   const renderVaultHeader = () => {
     const chevronStyle = {
       ...iconTextPrimary,
       ...styles.chevron,
       ...(isVaultSelectorOpen ? styles.chevronFlipped : {})
     }
-
-    const showCloseButton = !isCollapsed && isVaultSelectorOpen
-    const rightButton = showCloseButton ? (
-      <Button
-        variant="tertiary"
-        size="small"
-        onClick={() => setIsVaultSelectorOpen(false)}
-        data-testid="sidebar-vault-selector-close"
-        aria-label={t`Close vault selector`}
-        iconBefore={<Close style={iconTextPrimary} />}
-      />
-    ) : (
-      renderCollapseButton()
-    )
 
     return (
       <div style={styles.vaultSelector} data-testid="sidebar-vault-selector">
@@ -257,7 +229,6 @@ export const SidebarV2 = () => {
             </div>
           </Pressable>
         </div>
-        {rightButton}
       </div>
     )
   }

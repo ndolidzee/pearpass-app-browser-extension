@@ -12,10 +12,16 @@ export const createStyles = (colors: ThemeColors) => ({
     paddingInline: `${rawTokens.spacing12}px`,
     paddingBlock: `${rawTokens.spacing12}px`,
     width: '100%',
-    gap: `${rawTokens.spacing12}px`,
+    gap: `${rawTokens.spacing8}px`,
     borderBottom: `1px solid ${colors.colorBorderPrimary}`,
     backgroundColor: colors.colorSurfacePrimary,
     boxSizing: 'border-box' as const,
+    flexShrink: 0
+  },
+
+  leading: {
+    display: 'flex' as const,
+    alignItems: 'center' as const,
     flexShrink: 0
   },
 

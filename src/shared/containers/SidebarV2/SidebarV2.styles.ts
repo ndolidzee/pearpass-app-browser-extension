@@ -10,17 +10,9 @@ export const FOLDER_CONTEXT_MENU_WIDTH = 200
 const SIDEBAR_HORIZONTAL_PADDING = rawTokens.spacing12
 const FOLDERS_HEADER_HORIZONTAL_PADDING = rawTokens.spacing4
 
-// Icon (16) + padding (4×2) + border (1×2).
-const COLLAPSED_SMALL_ICON_BUTTON_WIDTH = 26
 const COLLAPSED_CHEVRON_WIDTH = 16
 
-// translateX offsets to re-center a flex-anchored child in the collapsed column.
-export const COLLAPSE_BUTTON_CENTER_SHIFT_PX =
-  (SIDEBAR_WIDTH_COLLAPSED - COLLAPSED_SMALL_ICON_BUTTON_WIDTH) / 2 -
-  (SIDEBAR_WIDTH_COLLAPSED -
-    SIDEBAR_HORIZONTAL_PADDING -
-    COLLAPSED_SMALL_ICON_BUTTON_WIDTH)
-
+// translateX offset to re-center the folders chevron in the collapsed column.
 export const FOLDERS_CHEVRON_CENTER_SHIFT_PX =
   (SIDEBAR_WIDTH_COLLAPSED - COLLAPSED_CHEVRON_WIDTH) / 2 -
   (SIDEBAR_HORIZONTAL_PADDING + FOLDERS_HEADER_HORIZONTAL_PADDING)
@@ -88,14 +80,6 @@ export const createStyles = (colors: ThemeColors, isCollapsed: boolean) => ({
 
   chevronFlipped: {
     transform: 'rotate(180deg)'
-  },
-
-  collapseButtonSlot: {
-    marginInlineStart: 'auto' as const,
-    display: 'flex' as const,
-    translate: `${isCollapsed ? COLLAPSE_BUTTON_CENTER_SHIFT_PX : 0}px`,
-    rotate: `${isCollapsed ? 180 : 0}deg`,
-    transition: 'translate 150ms ease'
   },
 
   scrollContainer: {

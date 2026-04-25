@@ -13,6 +13,8 @@ export type AppHeaderContextState = {
   setSearchValue: Dispatch<SetStateAction<string>>
   isAddMenuOpen: boolean
   setIsAddMenuOpen: Dispatch<SetStateAction<boolean>>
+  isSidebarCollapsed: boolean
+  setIsSidebarCollapsed: Dispatch<SetStateAction<boolean>>
 }
 
 const AppHeaderContext = createContext<AppHeaderContextState | null>(null)
@@ -24,15 +26,18 @@ export const AppHeaderContextProvider = ({
 }) => {
   const [searchValue, setSearchValue] = useState('')
   const [isAddMenuOpen, setIsAddMenuOpen] = useState(false)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
   const value = useMemo<AppHeaderContextState>(
     () => ({
       searchValue,
       setSearchValue,
       isAddMenuOpen,
-      setIsAddMenuOpen
+      setIsAddMenuOpen,
+      isSidebarCollapsed,
+      setIsSidebarCollapsed
     }),
-    [searchValue, isAddMenuOpen]
+    [searchValue, isAddMenuOpen, isSidebarCollapsed]
   )
 
   return (

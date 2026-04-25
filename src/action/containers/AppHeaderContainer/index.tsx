@@ -30,8 +30,14 @@ export const AppHeaderContainer = () => {
       }
     ) => void
   }
-  const { searchValue, setSearchValue, isAddMenuOpen, setIsAddMenuOpen } =
-    useAppHeaderContext()
+  const {
+    searchValue,
+    setSearchValue,
+    isAddMenuOpen,
+    setIsAddMenuOpen,
+    isSidebarCollapsed,
+    setIsSidebarCollapsed
+  } = useAppHeaderContext()
   const { defaultItems } = useRecordMenuItemsV2()
 
   if (currentPage !== 'vault') {
@@ -58,7 +64,11 @@ export const AppHeaderContainer = () => {
   }
 
   const handleImportClick = () => {
-    navigate('settings', { params: {} })
+    // Import flow not yet wired in extension; intentional no-op for now.
+  }
+
+  const handleSidebarToggle = () => {
+    setIsSidebarCollapsed((value) => !value)
   }
 
   const addItemControl = (
@@ -92,6 +102,8 @@ export const AppHeaderContainer = () => {
       searchValue={searchValue}
       onSearchChange={(val) => setSearchValue(val)}
       onImportClick={handleImportClick}
+      onSidebarToggle={handleSidebarToggle}
+      isSidebarCollapsed={isSidebarCollapsed}
       addItemControl={addItemControl}
       searchTestID="main-search-input"
       importTestID="main-import-button"
