@@ -18,7 +18,7 @@ export const App = () => {
   useGlobalLoading({ isLoading })
 
   const containerClassName = isV2()
-    ? 'bg-black-mode1 flex flex-col'
+    ? 'bg-background flex flex-col'
     : 'bg-black-mode1 flex items-center'
 
   return (

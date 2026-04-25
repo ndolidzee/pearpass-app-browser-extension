@@ -13,8 +13,7 @@ export const createStyles = (colors: ThemeColors) => ({
     paddingBlock: `${rawTokens.spacing12}px`,
     width: '100%',
     gap: `${rawTokens.spacing8}px`,
-    borderBottom: `1px solid ${colors.colorBorderPrimary}`,
-    backgroundColor: colors.colorSurfacePrimary,
+    backgroundColor: colors.colorBackground,
     boxSizing: 'border-box' as const,
     flexShrink: 0
   },
