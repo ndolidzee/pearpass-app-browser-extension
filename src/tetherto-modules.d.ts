@@ -7,6 +7,7 @@ declare module '@tetherto/pear-apps-utils-avatar-initials' {
 }
 declare module '@tetherto/pear-apps-utils-qr'
 declare module '@tetherto/pear-apps-utils-date'
+declare module '@tetherto/pearpass-lib-constants'
 declare module '@tetherto/pearpass-lib-vault' {
   export interface VaultDevice {
     id?: string
