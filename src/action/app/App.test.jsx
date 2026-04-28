@@ -7,6 +7,17 @@ import { App } from './App'
 
 const mockIsV2 = jest.fn(() => false)
 
+jest.mock('@tetherto/pearpass-lib-ui-kit', () => ({
+  rawTokens: { radius8: 8 },
+  useTheme: () => ({
+    theme: { colors: { colorBorderTertiary: '#cccccc' } }
+  })
+}))
+
+jest.mock('../containers/AppHeaderContainer', () => ({
+  AppHeaderContainer: () => <div data-testid="app-header-container" />
+}))
+
 jest.mock('../../shared/utils/designVersion', () => ({
   isV2: () => mockIsV2()
 }))
