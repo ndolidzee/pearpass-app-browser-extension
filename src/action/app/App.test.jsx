@@ -41,8 +41,8 @@ jest.mock('../../shared/components/WelcomePageWrapper', () => ({
   WelcomePageWrapper: () => <div data-testid="welcome-page-wrapper" />
 }))
 
-jest.mock('../../shared/components/LoadingV2', () => ({
-  LoadingV2: () => <div data-testid="loading-v2" />
+jest.mock('./Loading', () => ({
+  Loading: () => <div data-testid="loading" />
 }))
 
 const { useRedirect } = require('./hooks/useRedirect')
@@ -62,12 +62,12 @@ describe('App', () => {
     })
   })
 
-  it('renders LoadingV2 while loading when isV2() is true', () => {
+  it('renders Loading while loading when isV2() is true', () => {
     mockIsV2.mockReturnValue(true)
 
     render(<App />)
 
-    expect(screen.getByTestId('loading-v2')).toBeInTheDocument()
+    expect(screen.getByTestId('loading')).toBeInTheDocument()
     expect(screen.queryByTestId('fade-in-wrapper')).not.toBeInTheDocument()
     expect(screen.queryByTestId('welcome-page-wrapper')).not.toBeInTheDocument()
     expect(screen.queryByTestId('routes')).not.toBeInTheDocument()
@@ -80,7 +80,7 @@ describe('App', () => {
 
     expect(screen.getByTestId('fade-in-wrapper')).toBeInTheDocument()
     expect(screen.getByTestId('welcome-page-wrapper')).toBeInTheDocument()
-    expect(screen.queryByTestId('loading-v2')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
     expect(screen.queryByTestId('routes')).not.toBeInTheDocument()
   })
 })

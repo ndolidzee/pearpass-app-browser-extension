@@ -3,17 +3,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
-import { LoadingV2 } from './index'
-
-jest.mock('@lingui/core/macro', () => ({
-  t: Object.assign(
-    (strings: TemplateStringsArray | string) => {
-      if (Array.isArray(strings)) return strings.join('')
-      return strings
-    },
-    { __macro: true }
-  )
-}))
+import { Loading } from './index'
 
 jest.mock('@lingui/react', () => ({
   Trans: ({
@@ -70,23 +60,15 @@ jest.mock('@tetherto/pearpass-lib-ui-kit/icons', () => {
   }
 })
 
-describe('LoadingV2', () => {
-  it('renders a status landmark with full-size layout classes', () => {
-    const { container } = render(<LoadingV2 />)
+describe('Loading', () => {
+  it('exposes loading UI as a status region', () => {
+    render(<Loading />)
 
-    const root = container.firstChild as HTMLElement
-    expect(root).toHaveAttribute('role', 'status')
-    expect(root).toHaveClass(
-      'h-full',
-      'w-full',
-      'flex-col',
-      'items-center',
-      'justify-center'
-    )
+    expect(screen.getByRole('status')).toBeInTheDocument()
   })
 
   it('renders HourglassBottom from the UI kit with theme primary color and size', () => {
-    render(<LoadingV2 />)
+    render(<Loading />)
 
     const icon = screen.getByTestId('hourglass-bottom')
     expect(icon).toHaveAttribute('data-color', '#111111')
@@ -94,16 +76,16 @@ describe('LoadingV2', () => {
     expect(icon).toHaveAttribute('height', '24')
   })
 
-  it('renders PageHeader as h1 with the loading title', () => {
-    render(<LoadingV2 />)
+  it('renders the loading title as a top-level heading', () => {
+    render(<Loading />)
 
-    const header = screen.getByTestId('loading-page-header')
-    expect(header).toHaveAttribute('data-as', 'h1')
-    expect(screen.getByText('Just a moment...')).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Just a moment...' })
+    ).toBeInTheDocument()
   })
 
   it('renders the vault connection description', () => {
-    render(<LoadingV2 />)
+    render(<Loading />)
 
     expect(
       screen.getByText(

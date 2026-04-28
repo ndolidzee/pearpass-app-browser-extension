@@ -1,8 +1,8 @@
 import { useRedirect } from './hooks/useRedirect'
 import { useWindowResize } from './hooks/useWindowResize'
+import { Loading } from './Loading'
 import { Routes } from './Routes'
 import { FadeInWrapper } from '../../shared/components/FadeInWrapper'
-import { LoadingV2 } from '../../shared/components/LoadingV2'
 import { WelcomePageWrapper } from '../../shared/components/WelcomePageWrapper'
 import { useBlockingStateContext } from '../../shared/context/BlockingStateContext'
 import { useGlobalLoading } from '../../shared/context/LoadingContext'
@@ -19,7 +19,7 @@ export const App = () => {
 
   const getLoadingComponent = () =>
     isV2() ? (
-      <LoadingV2 />
+      <Loading />
     ) : (
       <FadeInWrapper>
         <WelcomePageWrapper />
