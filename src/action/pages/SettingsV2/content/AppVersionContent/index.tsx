@@ -66,7 +66,7 @@ export const AppVersionContent = () => {
 
       <div
         data-testid={TEST_IDS.versionRow}
-        className="border-border-primary flex w-full items-center justify-between rounded-[8px] border px-[12px] py-[15px]"
+        className="border-border-primary flex w-full items-center justify-between rounded-[8px] border px-[12px] py-[16px]"
       >
         <Text variant="labelEmphasized">{t`App version`}</Text>
         <Text

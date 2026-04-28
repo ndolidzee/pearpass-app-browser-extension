@@ -13,6 +13,7 @@ import {
 import { KeyboardArrowBottom } from '@tetherto/pearpass-lib-ui-kit/icons'
 
 import { useLanguageOptions } from '../../../../../hooks/useLanguageOptions'
+import { setLocaleInStorage } from '../../../../../shared/utils/localeStorage'
 
 const TEST_IDS = {
   root: 'settings-language',
@@ -42,6 +43,7 @@ export const LanguageContent = () => {
     (option: LanguageOption) => {
       setLanguage(option.value)
       i18n.activate(option.value)
+      void setLocaleInStorage(option.value)
       setIsDropdownOpen(false)
     },
     [i18n]
