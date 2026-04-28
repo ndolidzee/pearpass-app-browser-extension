@@ -126,10 +126,19 @@ jest.mock('@tetherto/pearpass-lib-ui-kit', () => ({
     theme: {
       colors: {
         colorTextPrimary: '#fff',
-        colorTextSecondary: '#888'
+        colorTextSecondary: '#888',
+        colorSurfacePrimary: '#000',
+        colorBorderPrimary: '#222'
       }
     }
-  })
+  }),
+  rawTokens: {
+    spacing4: 4,
+    spacing8: 8,
+    spacing12: 12,
+    spacing16: 16,
+    spacing24: 24
+  }
 }))
 
 import { MoveFolderModalContentV2 } from './index'

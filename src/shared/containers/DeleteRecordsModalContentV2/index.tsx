@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+
 import { t } from '@lingui/core/macro'
 import { Button, Dialog, Text, useTheme } from '@tetherto/pearpass-lib-ui-kit'
 import { useRecords } from '@tetherto/pearpass-lib-vault'
@@ -5,8 +7,10 @@ import { useRecords } from '@tetherto/pearpass-lib-vault'
 import { createStyles } from './DeleteRecordsModalContentV2.styles'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { useModal } from '../../context/ModalContext'
+import { useScrollOverflow } from '../../hooks/useScrollOverflow'
 import { getRecordSubtitle } from '../../utils/getRecordSubtitle'
 import type { VaultRecord } from '../../utils/groupRecordsByTimePeriod'
+import { FADE_GRADIENT_HEIGHT } from '../SidebarV2/SidebarV2.styles'
 import { RecordItemIcon } from '../RecordItemIcon'
 
 type DeleteRecordsModalContentV2Props = {
@@ -19,7 +23,7 @@ export const DeleteRecordsModalContentV2 = ({
   onCompleted
 }: DeleteRecordsModalContentV2Props) => {
   const { theme } = useTheme()
-  const styles = createStyles()
+  const styles = createStyles(theme.colors)
   const { closeModal } = useModal()
   const { setIsLoading } = useLoadingContext()
 
@@ -29,6 +33,9 @@ export const DeleteRecordsModalContentV2 = ({
     deleteRecords: (ids: string[]) => Promise<void>
     isLoading: boolean
   }
+
+  const itemsListRef = useRef<HTMLDivElement>(null)
+  const hasItemsOverflow = useScrollOverflow(itemsListRef, [records.length])
 
   const count = records.length
   const isSingle = count === 1
@@ -90,27 +97,38 @@ export const DeleteRecordsModalContentV2 = ({
         </div>
 
         {count > 0 && (
-          <div style={styles.itemsList}>
-            {records.map((record) => {
-              const subtitle = getRecordSubtitle(record)
-              const titleText = record.data?.title ?? ''
-              return (
-                <div key={record.id} style={styles.itemRow}>
-                  <RecordItemIcon record={record} size={32} />
-                  <div style={styles.itemText}>
-                    <Text>{titleText}</Text>
-                    {subtitle ? (
-                      <Text
-                        variant="caption"
-                        color={theme.colors.colorTextSecondary}
-                      >
-                        {subtitle}
-                      </Text>
-                    ) : null}
+          <div style={styles.itemsListWrapper}>
+            <div
+              ref={itemsListRef}
+              style={{
+                ...styles.itemsList,
+                paddingBottom: hasItemsOverflow ? FADE_GRADIENT_HEIGHT : 0
+              }}
+            >
+              {records.map((record) => {
+                const subtitle = getRecordSubtitle(record)
+                const titleText = record.data?.title ?? ''
+                return (
+                  <div key={record.id} style={styles.itemRow}>
+                    <RecordItemIcon record={record} size={32} />
+                    <div style={styles.itemText}>
+                      <Text>{titleText}</Text>
+                      {subtitle ? (
+                        <Text
+                          variant="caption"
+                          color={theme.colors.colorTextSecondary}
+                        >
+                          {subtitle}
+                        </Text>
+                      ) : null}
+                    </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
+            {hasItemsOverflow ? (
+              <div style={styles.fadeGradient} aria-hidden="true" />
+            ) : null}
           </div>
         )}
 

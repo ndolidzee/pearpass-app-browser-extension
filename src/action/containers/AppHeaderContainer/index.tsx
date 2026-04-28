@@ -16,6 +16,7 @@ import {
 } from '@tetherto/pearpass-lib-ui-kit/icons'
 
 import { AppHeaderAddItemTrigger, AppHeaderV2 } from '../AppHeaderV2'
+import { ImportItemOrVaultModalContentV2 } from '../../../shared/containers/ImportItemOrVaultModalContentV2'
 import { PasswordGeneratorModalContent } from '../../../shared/containers/PasswordGeneratorModalContent'
 import { useAppHeaderContext } from '../../../shared/context/AppHeaderContext'
 import { useModal } from '../../../shared/context/ModalContext'
@@ -132,7 +133,7 @@ export const AppHeaderContainer = () => {
   }
 
   const handleImportClick = () => {
-    // Import flow not yet wired in extension; intentional no-op for now.
+    setModal(<ImportItemOrVaultModalContentV2 />)
   }
 
   const handleSidebarToggle = () => {
