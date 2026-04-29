@@ -15,12 +15,21 @@ import { LoadingProvider } from '../shared/context/LoadingContext'
 import { ModalProvider } from '../shared/context/ModalContext'
 import { RouterProvider } from '../shared/context/RouterContext'
 import { ToastProvider } from '../shared/context/ToastContext'
+import { getLocaleFromStorage } from '../shared/utils/localeStorage'
 import { logger } from '../shared/utils/logger'
 import '../index.css'
 import '../strict.css'
 
 i18n.load('en', messages)
 i18n.activate('en')
+
+getLocaleFromStorage()
+  .then((stored) => {
+    if (stored && stored !== i18n.locale) i18n.activate(stored)
+  })
+  .catch((error) => {
+    logger.error('Failed to load persisted locale:', error)
+  })
 
 createClient()
   .then(() => {
