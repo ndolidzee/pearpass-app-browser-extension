@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { t } from '@lingui/core/macro'
+import { selectOrdinal, t } from '@lingui/core/macro'
 import {
   DEFAULT_SELECTED_TYPE,
   PASSPHRASE_WORD_COUNTS,
@@ -35,19 +35,6 @@ const parsePassphraseText = (text: string): string[] =>
 
 const isValidRange = (wordCount: number): boolean =>
   !wordCount || (VALID_WORD_COUNTS as number[]).includes(wordCount)
-
-const getWordLabel = (index: number): string => {
-  const position = index + 1
-  const remainder10 = position % 10
-  const remainder100 = position % 100
-
-  let suffix = 'th'
-  if (remainder10 === 1 && remainder100 !== 11) suffix = 'st'
-  else if (remainder10 === 2 && remainder100 !== 12) suffix = 'nd'
-  else if (remainder10 === 3 && remainder100 !== 13) suffix = 'rd'
-
-  return `${position}${suffix} Word`
-}
 
 const getSelectedTypeForWords = (wordCount: number): number => {
   if (
@@ -169,7 +156,12 @@ export const PassPhraseV2 = ({
               {detailWords.map((word, inputIndex) => (
                 <InputField
                   key={`details-word-${inputIndex}`}
-                  label={getWordLabel(inputIndex)}
+                  label={selectOrdinal(inputIndex + 1, {
+                    one: '#st Word',
+                    two: '#nd Word',
+                    few: '#rd Word',
+                    other: '#th Word'
+                  })}
                   value={word}
                   placeholder={t`Enter Word`}
                   readOnly
@@ -252,7 +244,12 @@ export const PassPhraseV2 = ({
                     {expandedWords.map((word, inputIndex) => (
                       <InputField
                         key={`${wordCount}-${inputIndex}`}
-                        label={getWordLabel(inputIndex)}
+                        label={selectOrdinal(inputIndex + 1, {
+                          one: '#st Word',
+                          two: '#nd Word',
+                          few: '#rd Word',
+                          other: '#th Word'
+                        })}
                         value={word}
                         placeholder={t`Enter Word`}
                         onChange={(e) =>
