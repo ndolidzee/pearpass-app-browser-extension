@@ -196,7 +196,7 @@ export const CreateOrEditNoteModalContentV2 = ({
             testID="createoredit-note-v2-comments-slot"
             actions={
               <Button
-                variant="tertiary"
+                variant="tertiaryAccent"
                 size="small"
                 type="button"
                 iconBefore={<Add width={16} height={16} />}

@@ -394,7 +394,7 @@ export const CreateOrEditLoginModalContentV2 = ({
                 testID="createoredit-login-v2-websites-slot"
                 actions={
                   <Button
-                    variant="tertiary"
+                    variant="tertiaryAccent"
                     size="small"
                     type="button"
                     iconBefore={<Add width={16} height={16} />}
@@ -485,7 +485,7 @@ export const CreateOrEditLoginModalContentV2 = ({
               testID="createoredit-login-v2-hiddenmessages-slot"
               actions={
                 <Button
-                  variant="tertiary"
+                  variant="tertiaryAccent"
                   size="small"
                   type="button"
                   iconBefore={<Add width={16} height={16} />}

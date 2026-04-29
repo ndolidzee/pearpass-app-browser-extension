@@ -195,7 +195,7 @@ export const CreateOrEditCustomModalContentV2 = ({
             testID="createoredit-custom-v2-hiddenmessage-slot"
             actions={
               <Button
-                variant="tertiary"
+                variant="tertiaryAccent"
                 size="small"
                 type="button"
                 iconBefore={<Add width={16} height={16} />}
