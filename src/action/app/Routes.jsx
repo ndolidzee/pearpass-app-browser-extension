@@ -20,6 +20,7 @@ import { AuthenticatorView } from '../pages/AuthenticatorView'
 import { CreatePasskey } from '../pages/CreatePasskey'
 import { CreatePasskeyV2 } from '../pages/CreatePasskey/CreatePasskeyV2'
 import { NonSecureWarning } from '../pages/NonSecureWarning'
+import { NonSecureWarningV2 } from '../pages/NonSecureWarning/NonSecureWarningV2'
 import { PasskeyLoginCreate } from '../pages/PasskeyLoginCreate'
 import { RecordDetails } from '../pages/RecordDetails'
 import { RecordList } from '../pages/RecordList'
@@ -131,7 +132,7 @@ export const Routes = () => {
 
       {!isSecure && !isAllowHttpEnabled && (
         <FadeInWrapper key="nonSecureWarning">
-          <NonSecureWarning />
+          {isV2() ? <NonSecureWarningV2 /> : <NonSecureWarning />}
         </FadeInWrapper>
       )}
     </OtpRefreshProvider>
