@@ -52,14 +52,12 @@ jest.mock('@tetherto/pearpass-lib-ui-kit', () => ({
     label,
     value,
     onChange,
-    error,
     testID,
     disabled
   }: {
     label?: string
     value?: string
     onChange?: (v: string) => void
-    error?: string
     testID?: string
     disabled?: boolean
   }) => (
@@ -71,48 +69,7 @@ jest.mock('@tetherto/pearpass-lib-ui-kit', () => ({
         disabled={disabled}
         onChange={(e) => onChange?.(e.target.value)}
       />
-      {error ? <span data-testid={`${testID}-error`}>{error}</span> : null}
     </label>
-  ),
-  InputField: ({
-    label,
-    value,
-    onChange,
-    error,
-    testID,
-    disabled
-  }: {
-    label?: string
-    value?: string
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-    error?: string
-    testID?: string
-    disabled?: boolean
-  }) => (
-    <label>
-      <span>{label}</span>
-      <input
-        data-testid={testID}
-        value={value}
-        disabled={disabled}
-        onChange={onChange}
-      />
-      {error ? <span data-testid={`${testID}-error`}>{error}</span> : null}
-    </label>
-  ),
-  AlertMessage: ({
-    title,
-    description,
-    testID
-  }: {
-    title?: React.ReactNode
-    description?: React.ReactNode
-    testID?: string
-  }) => (
-    <div data-testid={testID}>
-      {title ? <strong>{title}</strong> : null}
-      <span>{description}</span>
-    </div>
   ),
   Button: ({
     children,
@@ -166,6 +123,20 @@ jest.mock('../../../../../shared/context/ToastContext', () => ({
   useToast: () => ({ setToast: mockSetToast })
 }))
 
+const mockUseGlobalLoading = jest.fn()
+
+jest.mock('../../../../../shared/context/LoadingContext', () => ({
+  __esModule: true,
+  useGlobalLoading: (args: unknown) => mockUseGlobalLoading(args)
+}))
+
+const mockIsOnline = jest.fn(() => true)
+
+jest.mock('../../../../../shared/utils/isOnline', () => ({
+  __esModule: true,
+  isOnline: () => mockIsOnline()
+}))
+
 const mockLoggerError = jest.fn()
 
 jest.mock('../../../../../shared/utils/logger', () => ({
@@ -188,6 +159,9 @@ describe('ReportAProblemContent', () => {
     mockSendGoogleFormFeedback.mockReset()
     mockSetToast.mockReset()
     mockLoggerError.mockReset()
+    mockUseGlobalLoading.mockReset()
+    mockIsOnline.mockReset()
+    mockIsOnline.mockReturnValue(true)
     mockSendSlackFeedback.mockResolvedValue(undefined)
     mockSendGoogleFormFeedback.mockResolvedValue(undefined)
   })
@@ -202,63 +176,39 @@ describe('ReportAProblemContent', () => {
     expect(
       screen.getByTestId('settings-report-a-problem-form')
     ).toHaveAttribute('aria-label', 'Report a problem')
-    expect(screen.getByText('Describe the issue')).toBeInTheDocument()
+    const labels = screen.getAllByText('Report a problem')
+    expect(labels.length).toBeGreaterThanOrEqual(2)
   })
 
-  it('renders AlertMessage with a non-empty title', () => {
+  it('disables Send when message is empty', () => {
     render(<ReportAProblemContent />)
-
-    const alert = screen.getByTestId('settings-report-a-problem-alert')
-    expect(alert).toBeInTheDocument()
-    expect(alert.querySelector('strong')?.textContent).toBe('Privacy')
+    expect(
+      screen.getByTestId('settings-report-a-problem-submit')
+    ).toBeDisabled()
   })
 
-  it('shows both messageError and emailError on empty submit', async () => {
-    render(<ReportAProblemContent />)
-
-    fireEvent.submit(screen.getByTestId('settings-report-a-problem-form'))
-    await flushAsync()
-
-    expect(
-      screen.getByTestId('settings-report-a-problem-message-error')
-    ).toHaveTextContent('Please describe the issue.')
-    expect(
-      screen.getByTestId('settings-report-a-problem-email-error')
-    ).toHaveTextContent('Email is required.')
-    expect(mockSendSlackFeedback).not.toHaveBeenCalled()
-    expect(mockSendGoogleFormFeedback).not.toHaveBeenCalled()
-  })
-
-  it('shows emailError when email format is invalid', async () => {
+  it('does not call senders when offline at submit start', async () => {
+    mockIsOnline.mockReturnValue(false)
     render(<ReportAProblemContent />)
 
     fireEvent.change(screen.getByTestId('settings-report-a-problem-message'), {
       target: { value: 'something is broken' }
     })
-    fireEvent.change(screen.getByTestId('settings-report-a-problem-email'), {
-      target: { value: 'not-an-email' }
-    })
     fireEvent.submit(screen.getByTestId('settings-report-a-problem-form'))
     await flushAsync()
 
-    expect(
-      screen.getByTestId('settings-report-a-problem-email-error')
-    ).toHaveTextContent('Enter a valid email address.')
-    expect(
-      screen.queryByTestId('settings-report-a-problem-message-error')
-    ).not.toBeInTheDocument()
+    expect(mockSetToast).toHaveBeenCalledWith({
+      message: 'You are offline, please check your internet connection'
+    })
     expect(mockSendSlackFeedback).not.toHaveBeenCalled()
     expect(mockSendGoogleFormFeedback).not.toHaveBeenCalled()
   })
 
-  it('calls both senders with composed payload and shows success toast', async () => {
+  it('calls both senders with payload and shows success toast', async () => {
     render(<ReportAProblemContent />)
 
     fireEvent.change(screen.getByTestId('settings-report-a-problem-message'), {
       target: { value: 'app crashes on open' }
-    })
-    fireEvent.change(screen.getByTestId('settings-report-a-problem-email'), {
-      target: { value: 'user@example.com' }
     })
     fireEvent.submit(screen.getByTestId('settings-report-a-problem-form'))
     await flushAsync()
@@ -268,9 +218,7 @@ describe('ReportAProblemContent', () => {
 
     const slackArgs = mockSendSlackFeedback.mock.calls[0][0]
     expect(slackArgs.webhookUrPath).toBe('/test/slack/webhook')
-    expect(slackArgs.message).toBe(
-      'app crashes on open\n\nFollow-up email: user@example.com'
-    )
+    expect(slackArgs.message).toBe('app crashes on open')
     expect(slackArgs.topic).toBe('BUG_REPORT')
     expect(slackArgs.app).toBe('BROWSER_EXTENSION')
     expect(slackArgs.appVersion).toBe('1.2.3')
@@ -278,11 +226,16 @@ describe('ReportAProblemContent', () => {
     const googleArgs = mockSendGoogleFormFeedback.mock.calls[0][0]
     expect(googleArgs.formKey).toBe('test-form-key')
     expect(googleArgs.mapping).toEqual({ message: 'entry.1' })
-    expect(googleArgs.message).toBe(
-      'app crashes on open\n\nFollow-up email: user@example.com'
-    )
+    expect(googleArgs.message).toBe('app crashes on open')
 
     expect(mockSetToast).toHaveBeenCalledWith({ message: 'Feedback sent' })
+    expect(
+      (
+        screen.getByTestId(
+          'settings-report-a-problem-message'
+        ) as HTMLTextAreaElement
+      ).value
+    ).toBe('')
   })
 
   it('still shows success toast when only one sender fails (partial success)', async () => {
@@ -292,9 +245,6 @@ describe('ReportAProblemContent', () => {
 
     fireEvent.change(screen.getByTestId('settings-report-a-problem-message'), {
       target: { value: 'something' }
-    })
-    fireEvent.change(screen.getByTestId('settings-report-a-problem-email'), {
-      target: { value: 'user@example.com' }
     })
     fireEvent.submit(screen.getByTestId('settings-report-a-problem-form'))
     await flushAsync()
@@ -312,9 +262,6 @@ describe('ReportAProblemContent', () => {
     fireEvent.change(screen.getByTestId('settings-report-a-problem-message'), {
       target: { value: 'something' }
     })
-    fireEvent.change(screen.getByTestId('settings-report-a-problem-email'), {
-      target: { value: 'user@example.com' }
-    })
     fireEvent.submit(screen.getByTestId('settings-report-a-problem-form'))
     await flushAsync()
 
@@ -322,5 +269,32 @@ describe('ReportAProblemContent', () => {
       message: 'Something went wrong, please try again'
     })
     expect(mockLoggerError).toHaveBeenCalledTimes(2)
+  })
+
+  it('shows offline toast when 10s timeout fires while offline', async () => {
+    jest.useFakeTimers()
+    mockSendSlackFeedback.mockReturnValue(new Promise(() => {}))
+    mockSendGoogleFormFeedback.mockReturnValue(new Promise(() => {}))
+
+    render(<ReportAProblemContent />)
+
+    fireEvent.change(screen.getByTestId('settings-report-a-problem-message'), {
+      target: { value: 'hangs forever' }
+    })
+    fireEvent.submit(screen.getByTestId('settings-report-a-problem-form'))
+
+    mockIsOnline.mockReturnValue(false)
+
+    await act(async () => {
+      jest.advanceTimersByTime(10_000)
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(mockSetToast).toHaveBeenCalledWith({
+      message: 'You are offline, please check your internet connection'
+    })
+
+    jest.useRealTimers()
   })
 })
