@@ -20,11 +20,7 @@ import { useCopyToClipboard } from '../../../shared/hooks/useCopyToClipboard'
 import { OtpCodeField } from '../../components/OtpCodeField/OtpCodeField'
 import { toReadOnlyFieldProps } from './utils'
 
-type CustomField = {
-  type: string
-  name?: string
-  note?: string
-}
+type CustomField = { type: string; name?: string; note?: string }
 
 type LoginRecord = {
   id?: string
@@ -61,7 +57,7 @@ type FormValues = {
 
 export const LoginDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
   const { theme } = useTheme()
-  const { copyToClipboard } = useCopyToClipboard()
+  const { copyToClipboard, isCopyToClipboardEnabled } = useCopyToClipboard()
 
   const initialValues = useMemo<FormValues>(
     () => ({
@@ -112,7 +108,7 @@ export const LoginDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
                 label={t`Email / Username`}
                 placeholder={t`Email / Username`}
                 readOnly
-                copyable
+                copyable={isCopyToClipboardEnabled}
                 onCopy={copyToClipboard}
                 isGrouped
                 testID="credentials-multi-slot-input-slot-0"
@@ -125,7 +121,7 @@ export const LoginDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
                 label={t`Password`}
                 placeholder={t`Password`}
                 readOnly
-                copyable
+                copyable={isCopyToClipboardEnabled}
                 onCopy={copyToClipboard}
                 isGrouped
                 testID="credentials-multi-slot-input-slot-1"
@@ -159,7 +155,7 @@ export const LoginDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
                 value={website}
                 placeholder={t`Enter Website`}
                 readOnly
-                copyable
+                copyable={isCopyToClipboardEnabled}
                 onCopy={copyToClipboard}
                 isGrouped
                 testID={`website-multi-slot-input-slot-${index}`}
@@ -206,7 +202,7 @@ export const LoginDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
               label={t`Comment`}
               placeholder={t`Add comment`}
               readOnly
-              copyable
+              copyable={isCopyToClipboardEnabled}
               onCopy={copyToClipboard}
               isGrouped
               testID="comments-multi-slot-input-slot-0"
@@ -224,7 +220,7 @@ export const LoginDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
                 value={field.note ?? ''}
                 placeholder={t`Enter Hidden Message`}
                 readOnly
-                copyable
+                copyable={isCopyToClipboardEnabled}
                 onCopy={copyToClipboard}
                 isGrouped
                 testID={`hidden-messages-multi-slot-input-slot-${index}`}

@@ -13,20 +13,12 @@ import {
 import { useCopyToClipboard } from '../../../shared/hooks/useCopyToClipboard'
 import { toReadOnlyFieldProps } from './utils'
 
-type CustomField = {
-  type: string
-  name?: string
-  note?: string
-}
+type CustomField = { type: string; name?: string; note?: string }
 
 type NoteRecord = {
   id?: string
   folder?: string
-  data?: {
-    title?: string
-    note?: string
-    customFields?: CustomField[]
-  }
+  data?: { title?: string; note?: string; customFields?: CustomField[] }
 }
 
 interface Props {
@@ -34,15 +26,11 @@ interface Props {
   selectedFolder?: string
 }
 
-type FormValues = {
-  note: string
-  customFields: CustomField[]
-  folder?: string
-}
+type FormValues = { note: string; customFields: CustomField[]; folder?: string }
 
 export const NoteDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
   const { theme } = useTheme()
-  const { copyToClipboard } = useCopyToClipboard()
+  const { copyToClipboard, isCopyToClipboardEnabled } = useCopyToClipboard()
 
   const initialValues = useMemo<FormValues>(
     () => ({
@@ -76,7 +64,7 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
               label={t`Note`}
               placeholder={t`Enter Note`}
               readOnly
-              copyable
+              copyable={isCopyToClipboardEnabled}
               onCopy={copyToClipboard}
               isGrouped
               testID="note-multi-slot-input-slot-0"
@@ -100,7 +88,7 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
                 value={field.note ?? ''}
                 placeholder={t`Enter Hidden Message`}
                 readOnly
-                copyable
+                copyable={isCopyToClipboardEnabled}
                 onCopy={copyToClipboard}
                 isGrouped
                 testID={`hidden-messages-multi-slot-input-slot-${index}`}

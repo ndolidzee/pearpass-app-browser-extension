@@ -70,9 +70,11 @@ export const AuthenticatorView = () => {
   const { theme } = useTheme()
   const { setModal, isOpen: isModalOpen } = useModal()
   const { searchValue } = useAppHeaderContext() as { searchValue: string }
-  const { copyToClipboard } = useCopyToClipboard() as {
-    copyToClipboard: (text: string) => void
-  }
+  const { copyToClipboard, isCopyToClipboardEnabled } =
+    useCopyToClipboard() as {
+      copyToClipboard: (text: string) => void
+      isCopyToClipboardEnabled: boolean
+    }
   const styles = createStyles(theme.colors)
   const listStyles = createListStyles(theme.colors)
   const emptyStyles = createEmptyStyles()
@@ -277,17 +279,19 @@ export const AuthenticatorView = () => {
           !isMultiSelectOn ? (
             <div style={listStyles.rowRightElement}>
               <Text variant="labelEmphasized">{formatOtpCode(code ?? '')}</Text>
-              <Button
-                variant="tertiary"
-                size="small"
-                data-testid={`authenticator-record-copy-${record.id}`}
-                aria-label={t`Copy code`}
-                iconBefore={<ContentCopy color={iconColor} />}
-                onClick={(event) => {
-                  event.stopPropagation()
-                  if (code) copyToClipboard(code)
-                }}
-              />
+              {isCopyToClipboardEnabled && (
+                <Button
+                  variant="tertiary"
+                  size="small"
+                  data-testid={`authenticator-record-copy-${record.id}`}
+                  aria-label={t`Copy code`}
+                  iconBefore={<ContentCopy color={iconColor} />}
+                  onClick={(event) => {
+                    event.stopPropagation()
+                    if (code) copyToClipboard(code)
+                  }}
+                />
+              )}
             </div>
           ) : undefined
         }

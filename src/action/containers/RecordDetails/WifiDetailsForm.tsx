@@ -14,11 +14,7 @@ import { useCopyToClipboard } from '../../../shared/hooks/useCopyToClipboard'
 import { WifiPasswordQRCode } from '../WifiPasswordQRCode/WifiPasswordQRCode'
 import { toReadOnlyFieldProps } from './utils'
 
-type CustomField = {
-  type: string
-  name?: string
-  note?: string
-}
+type CustomField = { type: string; name?: string; note?: string }
 
 type WifiRecord = {
   id?: string
@@ -46,7 +42,7 @@ type FormValues = {
 
 export const WifiDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
   const { theme } = useTheme()
-  const { copyToClipboard } = useCopyToClipboard()
+  const { copyToClipboard, isCopyToClipboardEnabled } = useCopyToClipboard()
 
   const initialValues = useMemo<FormValues>(
     () => ({
@@ -83,7 +79,7 @@ export const WifiDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
               label={t`Wi-Fi Password`}
               placeholder={t`Insert Wi-Fi Password`}
               readOnly
-              copyable
+              copyable={isCopyToClipboardEnabled}
               onCopy={copyToClipboard}
               isGrouped
               testID="credentials-multi-slot-input-slot-0"
@@ -109,7 +105,7 @@ export const WifiDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
                 label={t`Comment`}
                 placeholder={t`Add comment`}
                 readOnly
-                copyable
+                copyable={isCopyToClipboardEnabled}
                 onCopy={copyToClipboard}
                 isGrouped
                 testID="comments-multi-slot-input-slot-0"
@@ -127,7 +123,7 @@ export const WifiDetailsForm = ({ initialRecord, selectedFolder }: Props) => {
                   value={field.note ?? ''}
                   placeholder={t`Enter Hidden Message`}
                   readOnly
-                  copyable
+                  copyable={isCopyToClipboardEnabled}
                   onCopy={copyToClipboard}
                   isGrouped
                   testID={`hidden-messages-multi-slot-input-slot-${index}`}

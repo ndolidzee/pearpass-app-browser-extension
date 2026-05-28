@@ -12,11 +12,7 @@ import { PassPhrase } from '../../../shared/containers/PassPhrase/PassPhrase'
 import { useCopyToClipboard } from '../../../shared/hooks/useCopyToClipboard'
 import { toReadOnlyFieldProps } from './utils'
 
-type CustomField = {
-  type: string
-  name?: string
-  note?: string
-}
+type CustomField = { type: string; name?: string; note?: string }
 
 type PassPhraseRecord = {
   id?: string
@@ -45,7 +41,7 @@ export const PassPhraseDetailsForm = ({
   initialRecord,
   selectedFolder
 }: Props) => {
-  const { copyToClipboard } = useCopyToClipboard()
+  const { copyToClipboard, isCopyToClipboardEnabled } = useCopyToClipboard()
 
   const initialValues = useMemo<FormValues>(
     () => ({
@@ -78,7 +74,7 @@ export const PassPhraseDetailsForm = ({
             label={t`Comment`}
             placeholder={t`Enter Comment`}
             readOnly
-            copyable
+            copyable={isCopyToClipboardEnabled}
             onCopy={copyToClipboard}
             isGrouped
             testID="comments-multi-slot-input-slot-0"
@@ -96,7 +92,7 @@ export const PassPhraseDetailsForm = ({
               value={field.note ?? ''}
               placeholder={t`Enter Hidden Message`}
               readOnly
-              copyable
+              copyable={isCopyToClipboardEnabled}
               onCopy={copyToClipboard}
               isGrouped
               testID={`hidden-messages-multi-slot-input-slot-${index}`}

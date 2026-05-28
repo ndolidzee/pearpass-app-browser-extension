@@ -35,7 +35,7 @@ export const OtpCodeField = ({
 }: OtpCodeFieldProps) => {
   const { theme } = useTheme()
   const styles = createStyles(theme.colors)
-  const { copyToClipboard } = useCopyToClipboard()
+  const { copyToClipboard, isCopyToClipboardEnabled } = useCopyToClipboard()
 
   const { code, timeRemaining, type, period, generateNext, isLoading } = useOtp(
     { recordId, otpPublic }
@@ -68,14 +68,16 @@ export const OtpCodeField = ({
           </Text>
           <Text variant="labelEmphasized">{formattedCode || ''}</Text>
         </div>
-        <Button
-          variant="tertiary"
-          size="small"
-          data-testid="otp-code-field-v2-copy"
-          aria-label={t`Copy code`}
-          iconBefore={<ContentCopy color={theme.colors.colorTextPrimary} />}
-          onClick={() => code && copyToClipboard(code)}
-        />
+        {isCopyToClipboardEnabled && (
+          <Button
+            variant="tertiary"
+            size="small"
+            data-testid="otp-code-field-v2-copy"
+            aria-label={t`Copy code`}
+            iconBefore={<ContentCopy color={theme.colors.colorTextPrimary} />}
+            onClick={() => code && copyToClipboard(code)}
+          />
+        )}
       </div>
 
       {isTOTP && (
