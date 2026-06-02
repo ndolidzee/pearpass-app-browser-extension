@@ -183,11 +183,11 @@ describe('VaultSelector', () => {
     })
   })
 
-  it('renders the vault list sorted by name', () => {
+  it('renders the active vault first, then remaining vaults sorted by name', () => {
     render(<VaultSelector />)
 
     const titles = screen.getAllByText(/Alpha|Beta/)
-    expect(titles.map((n) => n.textContent)).toEqual(['Alpha', 'Beta'])
+    expect(titles.map((n) => n.textContent)).toEqual(['Beta', 'Alpha'])
   })
 
   it('calls switchVault when selecting a vault that is not active', () => {
